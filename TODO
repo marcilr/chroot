@@ -1,0 +1,48 @@
+TODO
+Created Thu Mar 11 15:09:40 AKST 2010
+by Raymond E. Marcil
+
+
++++ Embed version number in resultant pdf filename.
+
+
+Complete
+========
+x Mar 15, 2010 - Fixed dist target to use tar --exclude rather than use
+cp.  Much cleaner:
+
+dist: ${PDF} mostlyclean
+        ${TAR} --exclude=".svn" -cvjpf ${BZ2} *
+
+ Mar 14, 2010 - The Makefile dist file uses:
+${CP} build.xml chroot.pdf figsize.sty Makefile TODO ${DIST}
+${CP} chroot.tex.in INSTALL-dhcp README VERSION ${DIST}
+
+This should use the more abstract:
+${CP} -r !(${DIST}) ${DIST} 
+
+Rather than a long series of values.  The above line breaks make.
+Likely does not like the "!" exclamation point.
+
+
+x Mar 14, 2010 - Need to track down the fullpage.sty latex package for 
+malachite.
+
+/usr/share/texmf-texlive/tex/latex/preprint/fullpage.sty
+
+texlive-latex-extra - TeX Live: LaTeX supplementary packages  <== This had fullpage.sty
+texlive-publishers - TeX Live: Support for publishers         <== Installed for grins.
+
+x Mar 11, 2010 - Need appropriate dist target for Makefile.
+Added solid dist target to Makefile.
+
+x Mar 11, 2010 - Need to get the VERSION variable to resolve in the
+header.  i.e. Not when referenced in targets below.
+
+Updated definition of VERSION to use shell command to resolve MAJOR, MINOR, 
+and PATCH on the spot.
+
+# Build VERSION number from MAJOR, MINOR, and PATCH
+# The use of shell resolves the cat, grep, cut, and tr commands       
+# before executing targets.
+VERSION = $(shell echo ${MAJOR}.${MINOR}.${PATCH})
