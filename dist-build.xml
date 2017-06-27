@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!-- =================================================================
+     dist-build.xml
+     Created Tue Mar 16 08:16:36 AKDT 2010
+     Copyright (C) 2010 Raymond E. Marcil <marcilr@gmail.com>
+
+     This program is free software: you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation, either version 3 of the License, or
+     (at your option) any later version.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     Ant distribution build file for chroot package.
+  
+     This ant build files calls mostlyclean target in build.xml to clean
+     up base directory.
+     ==================================================================== -->
+<project name="chroot" default="dist" basedir=".">
+  <description>Build project src distribution</description>
+
+  <!-- read in package version data -->
+  <property file="VERSION"/>
+
+  <!-- provide sane fallback properties if this package is 
+       built manually instead of driven by autotools -->
+  <property name="package"            value="calendar" />
+  <property name="package.dir"        value="uaa/its/calendar" />
+  <property name="package.name"       value="${ant.project.name}" />
+  <property name="package.version"    value="${major}.${minor}.${patch}" />
+
+  <property name="build_dir"       
+            value="${package.name}-${package.version}"/>
+
+  <property name="tarball.tar"
+            value="${package.name}-${package.version}.tar"/>
+
+  <property name="tarball.tar.bz2"
+            value="${tarball.tar}.bz2"/>
+
+  <!-- =============== Target PREPARE_BUILD_DIR ================ -->
+  <!-- =============== Target PREPARE_BUILD_DIR ================ -->
+
+  <!-- ==========================================
+       This target builds up the contents of the
+       distribution source tarball.   Include all
+       files and directories in distribution 
+       tarball.  Excluding the build directory
+       itself.
+       ========================================== -->
+  <target name="prepare_build_dir" depends="clean">
+
+    <mkdir dir="${build_dir}"/>
+    <copy todir="${build_dir}">
+
+      <fileset dir="${basedir}" includes="**/*">
+        <exclude name="${build_dir}"/>
+      </fileset>
+
+    </copy>
+
+  </target>
+
+
+  <!-- ================== Target TARBALL ====================== -->
+  <!-- ================== Target TARBALL ====================== -->
+  <target name="tarball"
+          description="generate distribution tarball">
+
+    <echo message="tarball name: ${tarball.tar.bz2}" />
+
+    <!-- ======================================
+         The key to directories pulled in is the
+         dir/** notation. Also, this doesn't
+         seem to accept more than one fileset. 
+         ======================================= -->
+    <tar destfile="${tarball.tar.bz2}" compression="bzip2">
+      <tarfileset dir="${basedir}">
+        <include name="${package.name}-${package.version}/**"/>
+      </tarfileset>
+    </tar>
+
+    <delete dir="${build_dir}"/>
+
+  </target>
+
+
+  <!-- =================== Target DIST ==================== -->
+  <!-- =================== Target DIST ==================== -->
+  <target name="dist"
+          depends="clean,prepare_build_dir,tarball"
+          description="build project source distribution"/>
+  
+
+  <!-- ==================== Target CLEAN ===================== -->
+  <!-- ==================== Target CLEAN ===================== -->
+  <target name="clean" description="clean up">
+
+    <delete dir="${build_dir}"/>
+
+    <ant dir="${basedir}" 
+         antfile="build.xml"
+         inheritAll="false"
+         target="mostlyclean"/>
+
+  </target>
+
+
+  <!-- ==================== Target CYCLE ===================== -->
+  <!-- ==================== Target CYCLE ===================== -->
+  <target name="cycle" depends="clean,dist"/>
+
+</project>
