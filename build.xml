@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<!-- =======================================================================
+  Created Tue Feb 23 16:30:16 AKST 2010
+  by Raymond E. Marcil <marcilr@gmail.com>
+  Copyright (C) 2010 Raymond E. Marcil
+
+  Permission is granted to copy, distribute and/or modify this document
+  under the terms of the GNU Free Documentation License, Version 1.3
+  or any later version published by the Free Software Foundation;
+  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+  A copy of the license is included in the section entitled "GNU
+  Free Documentation License".
+
+  This is an ant build.xml based on that by Jason Kattell at DNR LRIS BPU. 
+  He used the ant apply task to make it a bit more abstract. Cool stuff.
+  ========================================================================== -->
+<project name="Doc builder" default="dist" basedir=".">
+	<description>Build file for LaTex documents</description>
+
+
+<!-- ================================================
+     Pull in document major, minor, and patch VERSION
+     numbers from VERSION file.
+     ================================================ -->
+<property file="${basedir}/VERSION"/>
+
+
+<!-- ============ PROPERTIES ============ -->
+<property name="LATEX" 	   value="latex" />
+<property name="DVIPS" 	   value="dvips" />
+<property name="PS2PDF"	   value="ps2pdf" />
+<property name="SED"       value="sed" />
+<property name="VERSION"   value="${major}.${minor}.${patch}" />
+
+
+<!-- ============================== INIT =========================== -->
+<!-- ============================== INIT =========================== -->
+<target name="init">
+    <tstamp/>
+
+    <echo message="VERSION: ${VERSION}" />
+
+</target>
+
+
+<!-- =============================== TEX =========================== -->
+<!-- =============================== TEX =========================== -->
+<target name="tex"
+        description="create *.tex files from *.tex.in files">
+
+  <filter token="VERSION" value="${VERSION}" />
+
+  <!-- Copy *.tex.in files to *.tex with variable substitution. -->
+  <copy todir="${basedir}" filtering="true">
+    <fileset dir="." includes="*.in"/>
+    <mapper type="glob" from="*.tex.in" to="*.tex"/>
+  </copy>
+
+</target>
+
+
+<!-- =============================== DVI =========================== -->
+<!-- =============================== DVI =========================== -->
+<target name="dvi"
+        depends="tex"
+        description="creates dvi file from tex file using laTeX">
+
+  <apply executable="${LATEX}" dest=".">
+    <srcfile/>
+    <targetfile/>
+    <fileset dir="." includes="*.tex"/>
+    <mapper type="glob" from="*.tex" to="*.dvi"/>
+  </apply>
+
+  <!-- Run LaTeX again to resolve dependencies -->
+  <apply executable="${LATEX}" dest="." force="true">
+    <srcfile/>
+    <targetfile/>
+    <fileset dir="." includes="*.tex"/>
+      <mapper type="glob" from="*.tex" to="*.dvi"/>
+  </apply>
+
+</target>
+
+
+<!-- ================================= PS ============================== -->
+<!-- ================================= PS ============================== -->
+<target name="ps" 
+        depends="dvi"
+        description="creates a ps file from a dvi file using dvips">
+
+  <apply executable="${DVIPS}">
+    <arg line="-z -Ppdf"/>
+    <srcfile/>
+    <fileset dir="." includes="*.dvi"/>
+  </apply>
+
+</target>
+	
+<!-- ================================ PDF ============================== -->
+<!-- ================================ PDF ============================== -->
+<target name="pdf"
+        depends="ps"
+        description="creates a pdf from a ps file using ps2pdf">
+
+  <apply executable="${PS2PDF}">
+    <srcfile/>
+    <targetfile/>
+    <fileset dir="." includes="*.ps"/>
+    <mapper type="glob" from="*.ps" to="*.pdf"/>
+  </apply>
+
+</target>
+
+	
+<!-- ================================ DIST ============================== -->
+<!-- ================================ DIST ============================== -->
+<target name="dist" depends="init,pdf"/>
+
+
+<!-- ============================= MOSTLYCLEAN ========================== -->
+<!-- ============================= MOSTLYCLEAN ========================== -->
+<target name="mostlyclean" description="cleans generated files">
+
+  <!-- Does not delete pdf file. -->
+
+  <delete>
+    <fileset dir="." includes="*.tex"/>
+    <fileset dir="." includes="*.dvi,*.ps"/>
+    <fileset dir="." includes="*.aux,*.log,*.toc"/>
+    <fileset dir="." includes="*.lof,*.lot,*.out"/>
+    <fileset dir="." includes="*.bz2"/>
+    <fileset dir="." includes="*.tmp"/>
+  </delete>
+
+</target>
+
+
+<!-- ================================ CLEAN ============================= -->
+<!-- ================================ CLEAN ============================= -->
+<target name="clean" description="cleans generated files">
+
+  <delete>
+    <fileset dir="." includes="*.tex,*.pdf"/>
+    <fileset dir="." includes="*.dvi,*.ps"/>
+    <fileset dir="." includes="*.aux,*.log,*.toc"/>
+    <fileset dir="." includes="*.lof,*.lot,*.out"/>
+    <fileset dir="." includes="*.tmp"/>
+  </delete>
+
+</target>
+
+
+<!-- ================================ CYCLE ============================= -->
+<!-- ================================ CYCLE ============================= -->
+<target name="cycle"
+        depends="clean,dist"
+        description="rebuild project"/>
+
+</project>
