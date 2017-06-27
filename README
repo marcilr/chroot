@@ -1,0 +1,54 @@
+README
+Created Sun Mar  7 17:50:31 AKST 2010
+by Raymond E. Marcil <marcilr@gmail.com>
+Copyright (C) 2010 Raymond E. Marcil
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled "GNU
+Free Documentation License".
+
+
+Chroot repo.  For documenting chroot environments for dhcp, dns, and apache.
+
+
+Filelist
+========
+Makefile
+  GNU Makefile to build chroot LaTeX documentation.
+
+VERSION
+  chroot LaTeX VERSION file.
+
+TODO
+  TODO items for chroot document.
+
+build.xml
+  Ant build file to generate PDF from chroot.tex LaTeX file.
+
+chroot.tex.in 
+  Chroot input file to configure with VERSION to generate chroot.tex
+
+dist-build.xml
+  Ant build file to build document distribution package. 
+
+fdl.txt
+  GNU Free Documentation License
+  Version 1.3, 3 November 2008
+
+figsize.sty
+  Package to dynamically size figures relative to the page size.
+
+
+
+
+Links
+=====
+DHCP Server Configuration in Debian
+http://www.debianhelp.co.uk/dhcp.htm
+
+The DHCP Server dhcpd
+Example /etc/dhcpd.conf file.
+http://elibrary.fultus.com/technical/index.jsp?topic=/com.fultus.suse.guides/guides/10_1/manual/sec.dhcp.server.html
