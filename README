@@ -16,6 +16,9 @@ Chroot repo.  For documenting chroot environments for dhcp, dns, and apache.
 
 Filelist
 ========
+INSTALL-dhcp
+  Installing dhcp3-server in order to extract binaries for chroot build.
+
 Makefile
   GNU Makefile to build chroot LaTeX documentation.
 
