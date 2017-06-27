@@ -1,0 +1,130 @@
+INSTALL-dhcp
+Created Sun Mar  7 18:01:26 AKST 2010
+by Raymond E. Maril <marcilr@gmail.com>
+Copyright (C) 2010 Raymond E. Marcil
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled "GNU
+Free Documentation License".
+
+
+Packages
+========
+dhcp3-client - DHCP Client
+dhcp3-common - Common files used by all the dhcp3* packages
+dhcp3-dev - API for accessing and modifying the DHCP server and client state
+dhcp3-relay - DHCP Relay
+dhcp3-server - DHCP server for automatic IP address assignment
+
+from: Bornite's debian etch 4.0
+
+Install
+=======
+Installing dhcp3-server in order to extract binaries for chroot build.
+
+bornite:~# aptitude install dhcp3-server
+...
+Non-authoritative version of DHCP server
+
+The version 3 DHCP server is now non-authoritative by default.
+
+This means that if a client requests an address that the server knows
+nothing about and the address is incorrect for that network segment, the
+server will _not_ send a DHCPNAK (which tells the client it should stop
+using the address.) If you want to change this behavior, you must
+explicitly state in dhcpd.conf what network segments your server is
+authoritative for using the 'authoritative' statement. 
+<OK>
+...
+Get:1 http://security.debian.org etch/updates/main dhcp3-server 3.0.4-13+etch2 
+[291kB]
+Fetched 291kB in 1s (235kB/s)
+Preconfiguring packages ...
+Selecting previously deselected package dhcp3-server.
+(Reading database ... 106471 files and directories currently installed.)
+Unpacking dhcp3-server (from .../dhcp3-server_3.0.4-13+etch2_i386.deb) ...
+Setting up dhcp3-server (3.0.4-13+etch2) ...
+Generating /etc/default/dhcp3-server...
+Starting DHCP server: dhcpd3 failed to start - check syslog for diagnostics.
+invoke-rc.d: initscript dhcp3-server, action "start" failed.
+
+/var/log/syslog:
+...
+Mar  7 18:08:30 bornite dhcpd: Internet Systems Consortium DHCP Server V3.0.4
+Mar  7 18:08:30 bornite dhcpd: Copyright 2004-2006 Internet Systems Consortium.
+Mar  7 18:08:30 bornite dhcpd: All rights reserved.
+Mar  7 18:08:30 bornite dhcpd: For info, please visit http://www.isc.org/sw/dhcp/
+Mar  7 18:08:30 bornite dhcpd: Internet Systems Consortium DHCP Server V3.0.4
+Mar  7 18:08:30 bornite dhcpd: Copyright 2004-2006 Internet Systems Consortium.
+Mar  7 18:08:30 bornite dhcpd: All rights reserved.
+Mar  7 18:08:30 bornite dhcpd: For info, please visit http://www.isc.org/sw/dhcp/
+Mar  7 18:08:30 bornite dhcpd: Internet Systems Consortium DHCP Server V3.0.4
+Mar  7 18:08:30 bornite dhcpd: Copyright 2004-2006 Internet Systems Consortium.
+Mar  7 18:08:30 bornite dhcpd: All rights reserved.
+Mar  7 18:08:30 bornite dhcpd: For info, please visit http://www.isc.org/sw/dhcp/
+Mar  7 18:08:30 bornite dhcpd: Wrote 0 leases to leases file.
+Mar  7 18:08:30 bornite dhcpd:
+Mar  7 18:08:30 bornite dhcpd: No subnet declaration for eth6 (10.1.0.1).
+Mar  7 18:08:30 bornite dhcpd: ** Ignoring requests on eth6.  If this is not what
+Mar  7 18:08:30 bornite dhcpd:    you want, please write a subnet declaration
+Mar  7 18:08:30 bornite dhcpd:    in your dhcpd.conf file for the network segment
+Mar  7 18:08:30 bornite dhcpd:    to which interface eth6 is attached. **
+Mar  7 18:08:30 bornite dhcpd:
+Mar  7 18:08:30 bornite dhcpd:
+Mar  7 18:08:30 bornite dhcpd: No subnet declaration for eth7 (192.168.1.1).
+Mar  7 18:08:30 bornite dhcpd: ** Ignoring requests on eth7.  If this is not what
+Mar  7 18:08:30 bornite dhcpd:    you want, please write a subnet declaration
+Mar  7 18:08:30 bornite dhcpd:    in your dhcpd.conf file for the network segment
+Mar  7 18:08:30 bornite dhcpd:    to which interface eth7 is attached. **
+Mar  7 18:08:30 bornite dhcpd:
+Mar  7 18:08:30 bornite dhcpd:
+Mar  7 18:08:30 bornite dhcpd: No subnet declaration for eth5 (69.178.10.210).
+Mar  7 18:08:30 bornite dhcpd: ** Ignoring requests on eth5.  If this is not what
+Mar  7 18:08:30 bornite dhcpd:    you want, please write a subnet declaration
+Mar  7 18:08:30 bornite dhcpd:    in your dhcpd.conf file for the network segment
+Mar  7 18:08:30 bornite dhcpd:    to which interface eth5 is attached. **
+Mar  7 18:08:30 bornite dhcpd:
+Mar  7 18:08:30 bornite dhcpd:
+Mar  7 18:08:30 bornite dhcpd: Not configured to listen on any interfaces!
+
+dhcp3-server package files
+==========================
+
+Config
+------
+/etc/dhcp3/
+  dhclient.conf
+  dhclient-enter-hooks.d/
+    debug
+    ntp
+    samba
+  dhclient-exit-hooks.d/
+    debug
+  dhcpd.conf
+
+Binary
+------
+/usr/sbin/dhcpd3
+bornite:/usr/sbin# ldd dhcpd3
+        linux-gate.so.1 =>  (0xffffe000)
+        libc.so.6 => /lib/tls/i686/cmov/libc.so.6 (0xb7e36000)
+        /lib/ld-linux.so.2 (0xb7f71000)
+
+NOTE: "You can confidently tell users on this futile quest that there's not supposed to be a 
+linux-gate.so.1 file present anywhere on the file system; it's a virtual DSO, a shared object 
+exposed by the kernel at a fixed address in every process' memory..."
+from: trilithium.com/
+
+
+Start/stop script
+-----------------
+/etc/init.d/dhcp3-server
+
+
+Links
+=====
+What is linux-gate.so.1?
+http://www.trilithium.com/johan/2005/08/linux-gate/
