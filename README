@@ -31,6 +31,13 @@ TODO
 build.xml
   Ant build file to generate PDF from chroot.tex LaTeX file.
 
+chroot.pdf
+  Chroot Configuration
+  by marcilr@gmail.com   
+  Version 1.0       
+  This document contains chroot configuration notes for dhcp, bind,
+  and apache. Used for configuration of services on home network.
+
 chroot.tex.in 
   Chroot input file to configure with VERSION to generate chroot.tex
 
