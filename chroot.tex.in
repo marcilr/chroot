@@ -1,0 +1,397 @@
+%% -*- Mode: LaTeX -*-
+%%
+%% chroot.tex.in
+%% Created Tue Feb 23 16:38:43 AKST 2010
+%% by Raymond E. Marcil <marcilr@gmail.com>
+%% Copyright (C) 2010 Raymond E. Marcil
+%%
+%% Permission is granted to copy, distribute and/or modify this document
+%% under the terms of the GNU Free Documentation License, Version 1.3
+%% or any later version published by the Free Software Foundation;
+%% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+%% A copy of the license is included in the section entitled "GNU
+%% Free Documentation License".
+%%
+%% Chroot Configuration
+%%
+
+
+%%
+
+  %%
+%%%%%% Preamble.
+  %%
+
+%% Specify DVIPS driver used by things like hyperref
+\documentclass[12pt,letterpaper,dvips]{article}
+
+%% Embedded cvs version number not needed.
+%% (rem - Feb 22, 2010)
+%%\usepackage{rcs}
+
+\usepackage{fullpage}
+\usepackage{fancyvrb} 
+\usepackage{graphicx}
+\usepackage{figsize}
+\usepackage{calc}
+\usepackage{xspace}
+\usepackage{booktabs}
+\usepackage[first,bottomafter]{draftcopy}
+\usepackage[numbib]{tocbibind}
+\usepackage{amssymb}              %% AMS Symbols, used for \checkmark
+\usepackage{multicol}
+
+
+%% Hyperref package for embedding URLs
+%% for clickable links in PDFs, 
+%% also specify PDF attributes here.
+\usepackage[
+colorlinks=false,
+hyperindex=false,
+urlcolor=blue,
+pdfauthor={Raymond E. Marcil},
+pdftitle={Chroot Configuration},
+pdfcreator={ps2pdf},
+pdfsubject={chroot configuration},
+pdfkeywords={chroot, configuration}
+]{hyperref}
+
+
+  %%
+%%%%%% Customization.
+  %%
+
+% On letter paper with 10pt font the Verbatim environment has 65 columns.
+% With 12pt font the environment has 62 columns.  Exceeding this will exceed
+% the frame and will look ugly.  YHBW.  HAND.
+\RecustomVerbatimEnvironment{Verbatim}{Verbatim}{frame=single}
+
+\renewenvironment{description}
+                 {\list{}{\labelwidth 0pt \iteminden-\leftmargin
+                          \let\labelsep\hsize
+                          \let\makelabel\descriptionlabel}}
+                 {\endlist}
+\renewcommand*\descriptionlabel[1]{\hspace\labelsep\sffamily\bfseries #1}
+
+
+  %%
+%%%%%% Commands.
+  %%
+
+\newcommand{\FIXME}[1]{\textsf{[FIXME: #1]}}
+\newcommand{\cmd}[1]{\texttt{#1}}
+
+
+%% Squeeze space above/below captions
+\setlength{\abovecaptionskip}{4pt}   % 0.5cm as an example
+\setlength{\belowcaptionskip}{4pt}   % 0.5cm as an example
+
+
+%% Tex really adds a lot of whitespace to itemized 
+%% lists so define a new command itemize* with a 
+%% lot less whitespace.  Found this in the British
+%% Tex faq.
+\newenvironment{itemize*}%
+  {\begin{itemize}%
+    \setlength{\itemsep}{0pt}%
+    \setlength{\parsep}{0pt}}%
+  {\end{itemize}}
+
+%% Squeeze space
+\renewcommand\floatpagefraction{.9}
+\renewcommand\topfraction{.9}
+\renewcommand\bottomfraction{.9}
+\renewcommand\textfraction{.1}   
+\setcounter{totalnumber}{50}
+\setcounter{topnumber}{50}
+\setcounter{bottomnumber}{50}
+
+
+  %%
+%%%%%% Document.
+  %%
+
+\title{Chroot Configuration}
+
+\author{Raymond E. Marcil\\
+        \texttt{marcilr@gmail.com}\\
+        Version: @VERSION@
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    This document contains chroot configuration notes for dhcp, bind, and apache.
+    Used for configuration of services on home network.
+\end{abstract}
+
+\vspace{4.0in}
+
+%% Draw UAA ITS logo and address at bottom of page.
+%%\begin{figure}[h]
+%%        \hspace{0.32in}
+%%        \SetFigLayout{1}{1}
+%%        \begin{minipage}[b]{0.16\figwidth}
+%%                \includegraphics[width=\textwidth]{dnr_bwlogo.eps}
+%%        \end{minipage}
+%%        \hspace{5pt}
+%%        \begin{minipage}[b]{\figwidth}
+%%                \bf{IT Services}\\
+%%                \small{\sf{University of Alaska Anchorage\\
+%%                3211 Providence Drive\\
+%%                Anchorage, Alaska 99508\\
+%%                callcenter@uaa.alaska.edu\\
+%%                (907)786-4646}}
+%%        \end{minipage}
+%%\end{figure}
+
+\newpage
+Copyright (C) 2010 Raymond E. Marcil
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled "GNU
+Free Documentation License".
+
+
+\tableofcontents
+
+\newpage
+\listoffigures
+\listoftables
+
+
+\newpage
+
+%% =============== List of Abbreviations ===============
+%% =============== List of Abbreviations ===============
+\section{List of Definitions and Abbreviations}
+\begin{itemize*}
+  \item{\begin{bf}MOA\end{bf}} - Municipality of Anchorage
+
+\end{itemize*}
+
+%% =================== Introduction ====================
+%% =================== Introduction ====================
+
+\newpage
+\section{Introduction}
+The bsdInspect web application provides Inspection Requests
+submission.
+
+
+%% ======================== Questions ============================
+%% ======================== Questions ============================
+\section{Questions}
+Still have some outstanding questions.
+
+\begin{itemize*}
+     \item{} - Break table column over two rows?
+\end{itemize*}
+
+%% ======================== Examples =============================
+%% ======================== Examples =============================
+%% ======================== Examples =============================
+\newpage
+\section{Examples}
+Series of useful \LaTeX\ markup. Need to break out to 
+separate examples.tex file.
+
+\subsection{Escaping $<$ and $>$ Symbols}
+To get \$$<$\$ or \$$>$\$ just wrap the symbols in \$ for math mode.
+
+\subsection{Enumerate}
+\begin{enumerate}
+  \item{DNR} - Alaska State Department of Natural Resources
+    \begin{itemize*}
+      \item{HI} - Historical Index, not maintained since 1982
+      \item{LE} - Land Estate, maintained by SGU
+      \item{ME} - Mineral Estate, maintaind by SGU
+   \end{itemize*}
+
+  \item{Alaska State Surveys}
+    \begin{itemize*}
+      \item{ASBLT} - As-Built Survey
+      \item{ASCS} - Cadastral Survey
+    \end{itemize*}
+\end{enumerate}
+
+
+%% ======================= Comments =======================
+%% ======================= Comments =======================
+\subsection{Comments}
+\begin{center}
+\framebox{
+\begin{minipage}[t]{0.9\textwidth}
+\cmd{COMMENTS} Comment --- \emph{Sean Weems, Spring 2003}\\
+We should get the \cmd{COMMENTS} column searchable via the 
+landrecords application before we do much anything else -- shouldn't
+be too hard.
+\end{minipage}
+}
+\end{center}
+
+\begin{center}
+\framebox{
+\begin{minipage}[t]{0.9\textwidth}
+\emph{Errata: Plats spanning multiple sections}\\
+A few anomalies can be observed in the \cmd{AKPLATS}
+table. Specifically plats exist that span multiple sections. 
+Since the table only has a single column, \cmd{SCODE}, 
+that accepts a single section code, SGU (Status
+Graphics Unit) has handled this problem by entering multiple 
+rows in the table, each with a different section that point to
+the same plat or file. Multiple section plats are indicated by  setting 
+the \cmd{TCODE} column to the value \cmd{37}, and making an 
+appropriate notation like \emph{Section 24-25-26-27} in the 
+\cmd{REMARKS} column.\\
+\FIXME{Perhaps the \cmd{SCODE} column should accept an array of sections?}
+
+\end{minipage}
+}
+\end{center}
+
+%% ====================== Footnotes ======================
+%% ====================== Footnotes ======================
+\subsection{Footnotes}
+ Some footnotes here
+\ref{fig:uss-index} for an example. Yet another
+\ref{table:uss-index} example.
+
+%% ================ Simple Table Examples ================
+%% ================ Simple Table Examples ================
+\newpage
+\subsection{Simple Table Examples}
+\begin{table}[htb]
+\begin{tabular}{|p{.25\textwidth}|p{.20\textwidth}|p{.47\textwidth}|}\hline 
+Column Name&Type&Description\\ 
+\hline
+EQS&VARCHAR2(1)&!NULL map shows village selections\\
+ITM\_COL&VARCHAR2(1)&USGS ITM column: 1-6\\
+ITM\_ROW&VARCHAR2(1)&USGS ITM row: A-E\\
+QMQ\_ABBR\_DNR&VARCHAR2(3)&Three character DNR abbreviation for the QMQ\\
+RASTER\_FILENAME&VARCHAR2(50)&Physical path to file\\
+RASTER\_PATHNAME&VARCHAR2(50)&URL path to PDF of map\\
+SCODE&VARCHAR2(2)&Supplement map code: 1,2,3,...\\
+COMMENTS&VARCHAR2(256)&Plat comments\\
+\hline
+\end{tabular}
+\caption {\cmd{EASEMENTS\_17B} Table}
+\label{table:easements_17b}
+\end{table}
+
+%% A simple table example
+%% The htb attribute attempts to inline the table or figure
+%% where you put it in the document
+\begin{table}[htb]
+\begin{center}
+\begin{tabular*}{\textwidth}{@{}p{.25\textwidth}@{}p{.75\textwidth}}
+\hline
+\hline\\[-2.5ex]
+XML element&Descripton\\
+\hline
+\hline\\[-1.5ex]   %% Trick to add whitespace after horizontal line
+FNUM&US Survey file number\\ 
+MERIDIAN&BLM meridian code\\
+&\hspace{10pt}12 = Copper River\\
+&\hspace{10pt}13 = Fairbanks\\
+&\hspace{10pt}28 = Seward\\
+&\hspace{10pt}44 = Kateel\\
+&\hspace{10pt}45 = Umiat\\
+TOWNSHIP&Five character Township code\\
+RANGE&Five character Range code\\
+PAGE&Survey page number 1,2,3,...\\
+FILENAME&Relative path to file in direcory\\[1.5ex]
+\hline
+\end{tabular*}
+\caption {USS XML index elements}
+\label{table:uss-index}
+\end{center}
+\end{table}
+
+
+%% ==================== Another Simple Table Example =================
+%% ==================== Another Simple Table Example =================
+\subsection{Another Simple Table Example}
+\begin{table}[htb]
+\begin{tabular}{|p{.16\textwidth}|p{.17\textwidth}|p{.62\textwidth}|}\hline 
+Column Name&Type&Description\\ 
+\hline
+MTR&VARCHAR2(9)&Meridian, Township, Range, example: \emph{C026S054E}\\
+QMQ&VARCHAR2(3)&Quarter Million Quadrangle code,\\
+&&\hspace{10pt}example: \emph{DIL} (Dillingham quadrangle)\\
+\hline
+\end{tabular}
+\caption {\cmd{XREF\_MTR\_QMQ} Table}
+\label{table:xref_mtr_qmq}
+\end{table}
+
+%% ====================== Verbatim ==========================
+%% ====================== Verbatim ==========================
+\newpage
+\subsection{Verbatim}
+
+\begin{center}
+\begin{figure}
+\begin{quote}
+\small
+\begin{Verbatim}[frame=none]
+gis/raster/
+  dnr/
+    map_library/
+    plats/
+      SP/YYYYMMDD/*.pdf               # indexed
+      HI/YYYYMMDD/*.pdf               # Indexed
+      ASLS/YYYYMMDD/*.pdf             # Indexed
+    recorded-plats/
+      YYYYMMDD/*.pdf
+  blm/
+    easements_17b/YYYYMMDD/*.pdf      # indexed
+    mtp/YYYYMMDD/*.pdf                # non-indexed
+    usrs/YYYYMMDD/*.pdf               # indexed
+    usrs-notes/YYYYMMDD/*.pdf         # indexed
+    uss/YYYYMMDD/*.pdf                # indexed
+    uss-notes/YYYYMMDD/*.pdf          # indexed
+    usms/YYYYMMDD/*.pdf               # indexed
+    usms-notes/YYYYMMDD/*.pdf         # indexed
+  usgs/
+    drg/
+      collared/ 
+        250K/
+        63K/
+        25K/
+        24/
+      decollared/
+      tools/
+      missing\_data/
+    dem/
+    doq/
+    topo/
+\end{Verbatim}
+\normalsize
+\end{quote}
+\caption{File and Directory Structure}
+\label{fig:dirlayout}
+\end{figure}
+\end{center}
+
+
+%% ======================== Appendix =============================
+%% ======================== Appendix =============================
+
+\clearpage
+\newpage
+\section{Appendix}
+Need content here.
+
+\end{document}
+
+%% Local Variables:
+%% fill-column: 78
+%% mode: auto-fill
+%% compile-command: "make"
+%% End:
+
